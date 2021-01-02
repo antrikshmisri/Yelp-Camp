@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path')
 const mongoose = require('mongoose')
-
+const campground = require('./models/campground')
 mongoose.connect('mongodb://localhost:27017/yelp-camp',{
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -20,6 +20,17 @@ app.set('views' , path.join(__dirname , 'views'))
 
 app.get('/' , (req , res) =>{
     res.render('home')
+})
+
+app.get('/campgrounds' , async (req , res)=>{
+    const allcamps = await campground.find({})
+    res.render('campground/index' , {allcamps})
+})
+
+app.get('/campgrounds/:id' , async (req , res)=>{
+    const {id} = req.params;
+    const foundcamp = await campground.findById(id);
+    res.render('campground/show', {foundcamp})
 })
 app.listen(5050 , () =>{
     console.log('Listening on Port 5050')
