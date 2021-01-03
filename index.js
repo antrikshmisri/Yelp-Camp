@@ -41,6 +41,11 @@ app.post('/campgrounds' , async (req , res)=>{
     await newcamp.save()
     res.redirect('/campgrounds')
 })
+app.get('/campgrounds/:id/delete' ,async (req , res)=>{
+    const {id} = req.params;
+    const foundcamp = await campground.findById(id)
+    res.render('campground/delete' , {foundcamp})
+})
 app.get('/campgrounds/:id' , async (req , res)=>{
     const {id} = req.params;
     const foundcamp = await campground.findById(id);
