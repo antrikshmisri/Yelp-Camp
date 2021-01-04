@@ -7,6 +7,9 @@
 </head>
 <body>
     <h1>Delete <b><%= foundcamp.title %></b> Campground?</h1>
-    
+    <form action="/campgrounds/<%= foundcamp._id %>?_method=DELETE" method="POST">
+        <button style="background-color: red;" type="submit">DELETE</button>
+    </form>
+    <a href="/campgrounds/<%= foundcamp._id %>"><button style="background-color: green;">Cancel</button></a>
 </body>
 </html>

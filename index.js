@@ -3,6 +3,7 @@ const app = express();
 const path = require('path')
 const mongoose = require('mongoose')
 const campground = require('./models/campground')
+const methodOverride = require('method-override')
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp',{
     useNewUrlParser: true,
@@ -19,6 +20,8 @@ db.once("open" , ()=>{
 app.set('view engine' , 'ejs')
 app.set('views' , path.join(__dirname , 'views'))
 app.use(express.urlencoded({extended:false}));
+app.use(methodOverride('_method'))
+
 app.get('/' , (req , res) =>{
     res.render('home')
 })
@@ -45,6 +48,12 @@ app.get('/campgrounds/:id/delete' ,async (req , res)=>{
     const {id} = req.params;
     const foundcamp = await campground.findById(id)
     res.render('campground/delete' , {foundcamp})
+})
+
+app.delete('/campgrounds/:id' ,async (req , res)=>{
+    const {id} = req.params
+    await campground.findByIdAndDelete(id)
+    res.redirect('/campgrounds')
 })
 app.get('/campgrounds/:id' , async (req , res)=>{
     const {id} = req.params;
