@@ -52,6 +52,18 @@ app.delete('/campgrounds/:id' ,async (req , res)=>{
     await campground.findByIdAndDelete(id)
     res.redirect('/campgrounds')
 })
+
+app.get('/campgrounds/:id/edit' , async (req , res)=>{
+    const {id} = req.params
+    const foundcamp = await campground.findById(id)
+    res.render('campground/edit' , {foundcamp})
+})
+
+app.put('/campgrounds/:id' , async (req , res)=>{
+    const {id} = req.params
+    const updatedCamp = await campground.findByIdAndUpdate(id , req.body.campground , {runValidators: true})
+    res.redirect(`/campgrounds/${updatedCamp._id}`)
+})
 app.get('/campgrounds/:id' , async (req , res)=>{
     const {id} = req.params;
     const foundcamp = await campground.findById(id);
