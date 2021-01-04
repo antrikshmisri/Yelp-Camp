@@ -19,7 +19,7 @@ db.once("open" , ()=>{
 
 app.set('view engine' , 'ejs')
 app.set('views' , path.join(__dirname , 'views'))
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'))
 
 app.get('/' , (req , res) =>{
@@ -36,11 +36,8 @@ app.get('/campgrounds/new' , (req , res)=>{
 })
 
 app.post('/campgrounds' , async (req , res)=>{
-    const {title , location} = req.body
-    const newcamp = new campground({
-        title: title,
-        location: location
-    })
+    console.log(req.body)
+    const newcamp = new campground(req.body.campground)
     await newcamp.save()
     res.redirect('/campgrounds')
 })
