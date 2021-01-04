@@ -61,7 +61,7 @@ app.get('/campgrounds/:id/edit' , async (req , res)=>{
 
 app.put('/campgrounds/:id' , async (req , res)=>{
     const {id} = req.params
-    const updatedCamp = await campground.findByIdAndUpdate(id , req.body.campground , {runValidators: true})
+    const updatedCamp = await campground.findByIdAndUpdate(id , {...req.body.campground} , {runValidators: true})
     res.redirect(`/campgrounds/${updatedCamp._id}`)
 })
 app.get('/campgrounds/:id' , async (req , res)=>{
